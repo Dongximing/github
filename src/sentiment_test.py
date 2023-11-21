@@ -39,7 +39,7 @@ config = {
     "cliprange": .2,
     "cliprange_value":.2,
     "vf_coef":.1,
-    "forward_batch_size":25
+    "forward_batch_size":1
 }
 
 # load imdb with datasets
@@ -71,7 +71,7 @@ def tokenize(sample):
 
 ds = ds.apply(tokenize, axis=1)
 
-bs = 25
+bs = 1
 result_data = dict()
 
 query_tensors = ds['tokens'].tolist()
@@ -90,7 +90,7 @@ with torch.no_grad():
 ds['model_real_output'] = [gpt2_tokenizer.decode(response_tensors[i]) for i in range(bs)]
 
 #### sentiment analysis of query/response pairs before/after
-texts = [q + r for q,r in zip(result_data['review'], result_data['texts'])]
+texts = [q + r for q,r in zip(ds['review'], ds['texts'])]
 ds['completions'] = texts
 
 save = df.to_csv('paper.csv', index=False)
