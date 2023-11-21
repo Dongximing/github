@@ -44,7 +44,7 @@ config = {
 # load imdb with datasets
 ds = load_dataset('imdb', split='test')
 ds = pd.read_csv('/home/shaowei/sensitive-blocking/sentiment_methods/dataset/sampled_testing_dataset.csv')
-ds = ds.rename_columns({'prompt': 'review', })
+ds = ds.rename_columns({'prompt': 'review'})
 
 # device0 = torch.device("cuda:0")
 device1 = torch.device("cuda:0")
