@@ -22,10 +22,10 @@ from trl.gpt2 import GPT2HeadWithValueModel, sentiment_generation
 from trl.ppo import PPOTrainer
 from trl.core import build_bert_batch_from_txt, listify_batch
 
-from evaluate import load
-from rouge_score import rouge_scorer, scoring
-from nltk.tokenize import sent_tokenize
-from distinct import distinct
+# from evaluate import load
+# from rouge_score import rouge_scorer, scoring
+# from nltk.tokenize import sent_tokenize
+# from distinct import distinct
 
 config = {
     "model_name": "./model-gpt2-medium",
