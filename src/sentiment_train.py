@@ -37,7 +37,7 @@ experiment_name = 'model-gpt2-medium'
 
 # load imdb with datasets
 ds = load_dataset('imdb', split='train')
-ds = ds.rename_columns({'text': 'review', 'label': 'sentiment'})
+ds = ds.rename_columns({'text': 'review'})
 
 device0 = torch.device("cuda:0")
 #device1 = torch.device("cuda:1")
