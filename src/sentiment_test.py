@@ -43,7 +43,7 @@ config = {
 }
 
 # load imdb with datasets
-ds = load_dataset('imdb', split='test')
+
 ds = pd.read_csv('/home/shaowei/sensitive-blocking/sentiment_methods/dataset/sampled_testing_dataset.csv')
 # ds = ds.rename_columns({'prompt': 'review'})
 ds = ds.rename(columns={'prompt': 'review'})
@@ -64,17 +64,17 @@ gpt2_tokenizer.pad_token = gpt2_tokenizer.eos_token
 gpt2_model.to(device1)    
 input_size = 8
 
-# def tokenize(sample):
-#     sample["tokens"] = gpt2_tokenizer.encode(sample["review"])[:input_size]
-#     sample["query"] = gpt2_tokenizer.decode(sample["tokens"])
-#     return sample
-#
-# ds = ds.map(tokenize, batched=False)
+def tokenize(sample):
+    sample["tokens"] = gpt2_tokenizer.encode(sample["review"])[:input_size]
+    sample["query"] = gpt2_tokenizer.decode(sample["tokens"])
+    return sample
+
+ds = ds.map(tokenize, batched=False)
 
 bs = 25
 result_data = dict()
 
-query_tensors = ds['prompt_id'].tolist()
+query_tensors = ds['query'].tolist()
 response_tensors = []
 
 
