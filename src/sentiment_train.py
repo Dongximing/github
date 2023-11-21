@@ -17,7 +17,7 @@ from trl.ppo import PPOTrainer
 from trl.core import build_bert_batch_from_txt, listify_batch
 
 config = {
-    "model_name": "gpt2-xl",
+    "model_name": "gpt2-medium",
     "cls_model_name": "model/distilbert-imdb",
     "steps": 40000,
     "batch_size": 128,
@@ -34,14 +34,14 @@ config = {
     "vf_coef":.1, 
 }
 
-experiment_name = 'model/gpt2-xl-critic'
+experiment_name = 'model/gpt2-medium'
 
 # load imdb with datasets
 ds = load_dataset('imdb', split='train')
 ds = ds.rename_columns({'text': 'review', 'label': 'sentiment'})
 
 device0 = torch.device("cuda:0")
-device1 = torch.device("cuda:1")
+#device1 = torch.device("cuda:1")
 
 sent_kwargs = {
     "return_all_scores": True,
