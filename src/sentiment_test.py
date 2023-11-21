@@ -28,8 +28,8 @@ from nltk.tokenize import sent_tokenize
 from distinct import distinct
 
 config = {
-    "model_name": "model/gpt2-xl-critic",
-    "cls_model_name": "model/distilbert-imdb",
+    "model_name": "./model-gpt2-medium",
+    "cls_model_name": "lvwerra/distilbert-imdb",
     "lr": 1.41e-5,
     "init_kl_coef":0.2,
     "target": 6,
@@ -43,10 +43,11 @@ config = {
 
 # load imdb with datasets
 ds = load_dataset('imdb', split='test')
-ds = ds.rename_columns({'text': 'review', 'label': 'sentiment'})
+ds = pd.read_csv('/home/shaowei/sensitive-blocking/sentiment_methods/dataset/sampled_testing_dataset.csv')
+ds = ds.rename_columns({'prompt': 'review', })
 
-device0 = torch.device("cuda:0")
-device1 = torch.device("cuda:1")
+# device0 = torch.device("cuda:0")
+device1 = torch.device("cuda:0")
 
 sent_kwargs = {
     "return_all_scores": True,
@@ -61,19 +62,17 @@ gpt2_tokenizer.pad_token = gpt2_tokenizer.eos_token
 gpt2_model.to(device1)    
 input_size = 8
 
-def tokenize(sample):
-    sample["tokens"] = gpt2_tokenizer.encode(sample["review"])[:input_size()]
-    sample["query"] = gpt2_tokenizer.decode(sample["tokens"])
-    return sample
+# def tokenize(sample):
+#     sample["tokens"] = gpt2_tokenizer.encode(sample["review"])[:input_size]
+#     sample["query"] = gpt2_tokenizer.decode(sample["tokens"])
+#     return sample
+#
+# ds = ds.map(tokenize, batched=False)
 
-ds = ds.map(tokenize, batched=False)
-
-bs = 25000
+bs = 25
 result_data = dict()
-ds.set_format("pandas")
-df_batch = ds[:]
-result_data['query'] = df_batch['query'].tolist()
-query_tensors = df_batch['tokens'].tolist()
+
+query_tensors = df_batch['prompt'].tolist()
 response_tensors = []
 
 #### get response from gpt2 and gpt2_ref
@@ -85,10 +84,10 @@ with torch.no_grad():
         response_tensors.append(response[0])
 
 #### decode responses
-result_data['texts'] = [gpt2_tokenizer.decode(response_tensors[i]) for i in range(bs)]
+ds['model_real_output'] = [gpt2_tokenizer.decode(response_tensors[i]) for i in range(bs)]
 
 #### sentiment analysis of query/response pairs before/after
 texts = [q + r for q,r in zip(result_data['query'], result_data['texts'])]
+ds['completions'] = texts
 
-df_results = pd.DataFrame(result_data)
-save = df_results.to_json('json/sentiment.json', orient='table')
+save = df.to_csv('paper.csv', index=False)
