@@ -45,7 +45,8 @@ config = {
 # load imdb with datasets
 ds = load_dataset('imdb', split='test')
 ds = pd.read_csv('/home/shaowei/sensitive-blocking/sentiment_methods/dataset/sampled_testing_dataset.csv')
-ds = ds.rename_columns({'prompt': 'review'})
+# ds = ds.rename_columns({'prompt': 'review'})
+ds = ds.rename(columns={'prompt': 'review'})
 
 # device0 = torch.device("cuda:0")
 device1 = torch.device("cuda:0")
@@ -73,8 +74,9 @@ input_size = 8
 bs = 25
 result_data = dict()
 
-query_tensors = df_batch['prompt'].tolist()
+query_tensors = ds['prompt_id'].tolist()
 response_tensors = []
+
 
 #### get response from gpt2 and gpt2_ref
 with torch.no_grad():
@@ -88,7 +90,7 @@ with torch.no_grad():
 ds['model_real_output'] = [gpt2_tokenizer.decode(response_tensors[i]) for i in range(bs)]
 
 #### sentiment analysis of query/response pairs before/after
-texts = [q + r for q,r in zip(result_data['query'], result_data['texts'])]
+texts = [q + r for q,r in zip(result_data['prompt'], result_data['texts'])]
 ds['completions'] = texts
 
 save = df.to_csv('paper.csv', index=False)
