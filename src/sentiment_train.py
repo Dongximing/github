@@ -19,8 +19,8 @@ config = {
     "model_name": "gpt2-medium",
     "cls_model_name": "lvwerra/distilbert-imdb",
     "steps": 40000,
-    "batch_size": 128,
-    "forward_batch_size": 32,
+    "batch_size": 64,
+    "forward_batch_size": 64,
     "ppo_epochs": 4,
     "lr": 1.41e-5,
     "init_kl_coef":0.2,
@@ -105,6 +105,7 @@ for epoch, batch in tqdm(zip(range(total_ppo_epochs), iter(dataloader))):
     logs, timing = dict(), dict()
     t0 = time.time()
     query_tensors = [torch.tensor(t).long().to(device0) for t in batch["tokens"]]
+    print("query_tensors",query_tensors.size())
 
     #### Get response from gpt2
     t = time.time()
