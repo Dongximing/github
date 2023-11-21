@@ -105,7 +105,7 @@ for epoch, batch in tqdm(zip(range(total_ppo_epochs), iter(dataloader))):
     logs, timing = dict(), dict()
     t0 = time.time()
     query_tensors = [torch.tensor(t).long().to(device0) for t in batch["tokens"]]
-    print("query_tensors",query_tensors.size())
+    print("query_tensors",len(query_tensors))
 
     #### Get response from gpt2
     t = time.time()
