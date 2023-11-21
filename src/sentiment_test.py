@@ -74,7 +74,7 @@ ds = ds.apply(tokenize, axis=1)
 bs = 25
 result_data = dict()
 
-query_tensors = ds['query'].tolist()
+query_tensors = ds['tokens'].tolist()
 response_tensors = []
 
 
