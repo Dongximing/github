@@ -17,7 +17,7 @@ from trl.core import build_bert_batch_from_txt, listify_batch
 
 config = {
     "model_name": "gpt2-medium",
-    "cls_model_name": "model/distilbert-imdb",
+    "cls_model_name": "lvwerra/distilbert-imdb",
     "steps": 40000,
     "batch_size": 128,
     "forward_batch_size": 32,
