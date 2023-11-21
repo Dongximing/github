@@ -18,7 +18,7 @@ from trl.core import build_bert_batch_from_txt, listify_batch
 config = {
     "model_name": "gpt2-medium",
     "cls_model_name": "lvwerra/distilbert-imdb",
-    "steps": 400,
+    "steps": 40000,
     "batch_size": 128,
     "forward_batch_size": 32,
     "ppo_epochs": 4,
@@ -37,8 +37,19 @@ experiment_name = 'model-gpt2-medium'
 
 # load imdb with datasets
 ds = load_dataset('imdb', split='train')
-ds = ds.select(range(256))
+
+# 分别筛选出正面和负面评价
+pos_reviews = ds.filter(lambda x: x['label'] == 1)
+neg_reviews = ds.filter(lambda x: x['label'] == 0)
+
+# 从每个类别中选择 1250 个样本
+pos_reviews = pos_reviews.select(range(1250))
+neg_reviews = neg_reviews.select(range(1250))
+
+# 合并这两个子集
+ds = pos_reviews.concatenate(neg_reviews)
 ds = ds.rename_columns({'text': 'review'})
+print('len',len(ds))
 
 device0 = torch.device("cuda:0")
 #device1 = torch.device("cuda:1")
