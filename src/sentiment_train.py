@@ -125,7 +125,6 @@ for epoch, batch in tqdm(zip(range(total_ppo_epochs), iter(dataloader))):
     # print(texts)
 
     pipe_outputs = sentiment_pipe(texts, **sent_kwargs)
-    print('pipe_outputs',pipe_outputs)
     rewards = torch.tensor([output["score"] for output in pipe_outputs]).to(device0)
     timing['time/get_sentiment_preds'] = time.time()-t
 
