@@ -1,8 +1,8 @@
 import torch
 from trl.gpt2 import GPT2HeadWithValueModel
 # 假设 model1 和 model2 是两个 PyTorch 模型
-model1 = GPT2HeadWithValueModel.from_pretrained('./model-gpt2-medium')
-model2 = GPT2HeadWithValueModel.from_pretrained('./model-gpt2-medium')
+model1 = GPT2HeadWithValueModel.from_pretrained('gpt2-medium')
+model2 = GPT2HeadWithValueModel.from_pretrained('./model-gpt2-medium-2560')
 
 # 检查两个模型的参数是否相等
 def check_model_equality(model1, model2):
