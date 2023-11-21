@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 tqdm.pandas()
 
-from datasets import load_dataset
+from datasets import load_dataset,concatenate_datasets
 
 from transformers import AutoTokenizer, pipeline
 
@@ -47,7 +47,7 @@ pos_reviews = pos_reviews.select(range(1250))
 neg_reviews = neg_reviews.select(range(1250))
 
 # 合并这两个子集
-ds = pos_reviews.concatenate(neg_reviews)
+ds = concatenate_datasets([pos_reviews, neg_reviews])
 ds = ds.rename_columns({'text': 'review'})
 print('len',len(ds))
 
