@@ -78,7 +78,7 @@ gen_kwargs = {
     "top_p": 1.0,
     "do_sample": True,
     "pad_token_id": gpt2_tokenizer.eos_token_id,
-    "max_new_tokens": 25,
+    "max_tokens": 57,
     "temperature": 2.0
 }
 
