@@ -39,7 +39,7 @@ config = {
     "cliprange": .2,
     "cliprange_value":.2,
     "vf_coef":.1,
-    "forward_batch_size":1
+    "forward_batch_size"25
 }
 
 # load imdb with datasets
@@ -71,7 +71,7 @@ def tokenize(sample):
 
 ds = ds.apply(tokenize, axis=1)
 
-bs = 1
+bs = 25
 result_data = dict()
 
 query_tensors = ds['tokens'].tolist()
