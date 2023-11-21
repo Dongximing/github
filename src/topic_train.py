@@ -1,5 +1,5 @@
 import torch
-import wandb
+#
 import time
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
@@ -127,7 +127,6 @@ for epoch in tqdm(range(500)):
     logs['env/reward_mean'] = torch.mean(rewards).cpu().numpy()
     logs['env/reward_std'] = torch.std(rewards).cpu().numpy()
     logs['env/reward_dist'] = rewards.cpu().numpy()
-    wandb.log(logs)
 
     num = num+1
 
