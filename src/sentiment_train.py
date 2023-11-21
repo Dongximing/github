@@ -33,7 +33,7 @@ config = {
     "vf_coef":.1, 
 }
 
-experiment_name = 'model-gpt2-medium-2560'
+experiment_name = 'model-gpt2-medium-5120'
 
 # load imdb with datasets
 ds = load_dataset('imdb', split='train')
