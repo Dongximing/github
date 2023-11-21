@@ -44,7 +44,7 @@ config = {
 
 # load imdb with datasets
 
-ds = pd.read_csv('/home/shaowei/sensitive-blocking/sentiment_methods/dataset/sampled_testing_dataset.csv')
+ds = pd.read_csv('/home/shaowei/sensitive-blocking/sentiment_methods/half_sentiment_context_imdb_paper_test_015.csv')
 # ds = ds.rename_columns({'prompt': 'review'})
 ds = ds.rename(columns={'prompt': 'review'})
 
@@ -82,7 +82,7 @@ response_tensors = []
 with torch.no_grad():
     gpt2_model.eval()
 
-    for i in range(bs):
+    for i in tqdmrange(bs):
         response = sentiment_generation(gpt2_model, torch.tensor(query_tensors[i]).unsqueeze(dim=0).to(device1))
         response_tensors.append(response[0])
 
