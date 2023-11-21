@@ -33,7 +33,7 @@ config = {
     "vf_coef":.1, 
 }
 
-experiment_name = 'model/gpt2-medium'
+experiment_name = 'model-gpt2-medium'
 
 # load imdb with datasets
 ds = load_dataset('imdb', split='train')
@@ -66,7 +66,7 @@ for module in [gpt2_model.transformer, gpt2_model.lm_head]:
 input_size = 32
 
 def tokenize(sample):
-    sample["tokens"] = gpt2_tokenizer.encode(sample["review"])[:input_size()]
+    sample["tokens"] = gpt2_tokenizer.encode(sample["review"])[:input_size]
     sample["query"] = gpt2_tokenizer.decode(sample["tokens"])
     return sample
 
