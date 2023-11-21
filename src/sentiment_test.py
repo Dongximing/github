@@ -69,7 +69,7 @@ def tokenize(sample):
     sample["query"] = gpt2_tokenizer.decode(sample["tokens"])
     return sample
 
-ds = ds.map(tokenize, batched=False)
+ds = ds.apply(tokenize, axis=1)
 
 bs = 25
 result_data = dict()
