@@ -19,7 +19,7 @@ config = {
     "model_name": "gpt2-medium",
     "cls_model_name": "lvwerra/distilbert-imdb",
     "steps": 40000,
-    "batch_size": 64,
+    "batch_size": 128,
     "forward_batch_size": 64,
     "ppo_epochs": 4,
     "lr": 1.41e-5,
@@ -43,8 +43,8 @@ pos_reviews = ds.filter(lambda x: x['label'] == 1)
 neg_reviews = ds.filter(lambda x: x['label'] == 0)
 
 # 从每个类别中选择 1250 个样本
-pos_reviews = pos_reviews.select(range(1250))
-neg_reviews = neg_reviews.select(range(1250))
+pos_reviews = pos_reviews.select(range(1280))
+neg_reviews = neg_reviews.select(range(1280))
 
 # 合并这两个子集
 ds = concatenate_datasets([pos_reviews, neg_reviews])
