@@ -1,0 +1,11 @@
+{
+  "name": "ximing",
+  "version": "1.0.0",
+  "description": "![alt text](Overview.png \"Main Figure\")",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
