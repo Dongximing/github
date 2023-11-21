@@ -33,7 +33,7 @@ config = {
     "vf_coef":.1, 
 }
 
-experiment_name = 'model-gpt2-medium'
+experiment_name = 'model-gpt2-medium-2560'
 
 # load imdb with datasets
 ds = load_dataset('imdb', split='train')
@@ -43,11 +43,13 @@ pos_reviews = ds.filter(lambda x: x['label'] == 1)
 neg_reviews = ds.filter(lambda x: x['label'] == 0)
 
 # 从每个类别中选择 1250 个样本
-pos_reviews = pos_reviews.select(range(1280))
-neg_reviews = neg_reviews.select(range(1280))
+pos_reviews = pos_reviews.select(range(2560))
+# neg_reviews = neg_reviews.select(range(1280))
 
 # 合并这两个子集
 ds = concatenate_datasets([pos_reviews, neg_reviews])
+ds = pos_reviews
+
 ds = ds.rename_columns({'text': 'review'})
 print('len',len(ds))
 
