@@ -18,7 +18,7 @@ from trl.core import build_bert_batch_from_txt, listify_batch
 config = {
     "model_name": "gpt2-medium",
     "cls_model_name": "lvwerra/distilbert-imdb",
-    "steps": 40000,
+    "steps": 400,
     "batch_size": 128,
     "forward_batch_size": 32,
     "ppo_epochs": 4,
@@ -37,6 +37,7 @@ experiment_name = 'model-gpt2-medium'
 
 # load imdb with datasets
 ds = load_dataset('imdb', split='train')
+ds = ds.select(range(256))
 ds = ds.rename_columns({'text': 'review'})
 
 device0 = torch.device("cuda:0")
