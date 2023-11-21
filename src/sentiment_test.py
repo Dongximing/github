@@ -39,7 +39,7 @@ config = {
     "cliprange": .2,
     "cliprange_value":.2,
     "vf_coef":.1,
-    "forward_batch_size"25
+    "forward_batch_size":25
 }
 
 # load imdb with datasets
