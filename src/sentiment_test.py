@@ -28,7 +28,7 @@ from trl.core import build_bert_batch_from_txt, listify_batch
 # from distinct import distinct
 
 config = {
-    "model_name": "./model-gpt2-medium-2560",
+    "model_name": "./model-gpt2-medium-5120",
     "cls_model_name": "lvwerra/distilbert-imdb",
     "lr": 1.41e-5,
     "init_kl_coef":0.2,
