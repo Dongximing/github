@@ -82,7 +82,7 @@ response_tensors = []
 with torch.no_grad():
     gpt2_model.eval()
 
-    for i in tqdmrange(bs):
+    for i in tqdm(range(bs)):
         response = sentiment_generation(gpt2_model, torch.tensor(query_tensors[i]).unsqueeze(dim=0).to(device1))
         response_tensors.append(response[0])
 
