@@ -90,7 +90,7 @@ with torch.no_grad():
 ds['model_real_output'] = [gpt2_tokenizer.decode(response_tensors[i]) for i in range(bs)]
 
 #### sentiment analysis of query/response pairs before/after
-texts = [q + r for q,r in zip(result_data['prompt'], result_data['texts'])]
+texts = [q + r for q,r in zip(result_data['review'], result_data['texts'])]
 ds['completions'] = texts
 
 save = df.to_csv('paper.csv', index=False)
