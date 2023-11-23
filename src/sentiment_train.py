@@ -46,7 +46,7 @@ neg_reviews = ds.filter(lambda x: x['label'] == 0)
 pos_reviews = pos_reviews.select(range(12480))
 neg_reviews = neg_reviews.select(range(12480))
 
-合并这两个子集
+#合并这两个子集
 ds = concatenate_datasets([pos_reviews, neg_reviews])
 #ds = pos_reviews
 
