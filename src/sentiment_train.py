@@ -39,15 +39,15 @@ experiment_name = 'model-gpt2-medium-full'
 ds = load_dataset('imdb', split='train')
 
 # 分别筛选出正面和负面评价
-# pos_reviews = ds.filter(lambda x: x['label'] == 1)
-# neg_reviews = ds.filter(lambda x: x['label'] == 0)
+pos_reviews = ds.filter(lambda x: x['label'] == 1)
+neg_reviews = ds.filter(lambda x: x['label'] == 0)
 #
 # # 从每个类别中选择 1250 个样本
-# pos_reviews = pos_reviews.select(range(5120))
-# neg_reviews = neg_reviews.select(range(1280))
+pos_reviews = pos_reviews.select(range(12480))
+neg_reviews = neg_reviews.select(range(12480))
 
-# 合并这两个子集
-#ds = concatenate_datasets([pos_reviews, neg_reviews])
+合并这两个子集
+ds = concatenate_datasets([pos_reviews, neg_reviews])
 #ds = pos_reviews
 
 ds = ds.rename_columns({'text': 'review'})
