@@ -50,7 +50,7 @@ ds = load_dataset('imdb', split='train')
 #ds = concatenate_datasets([pos_reviews, neg_reviews])
 #ds = pos_reviews
 
-ds = ds.rename_columns({'text': 'review','label': 'sentiment'})
+ds = ds.rename_columns({'text': 'review'})
 print('len',len(ds))
 
 device0 = torch.device("cuda:0")
