@@ -33,24 +33,24 @@ config = {
     "vf_coef":.1, 
 }
 
-experiment_name = 'model-gpt2-medium-5120'
+experiment_name = 'model-gpt2-medium-full'
 
 # load imdb with datasets
 ds = load_dataset('imdb', split='train')
 
 # 分别筛选出正面和负面评价
-pos_reviews = ds.filter(lambda x: x['label'] == 1)
-neg_reviews = ds.filter(lambda x: x['label'] == 0)
-
-# 从每个类别中选择 1250 个样本
-pos_reviews = pos_reviews.select(range(5120))
+# pos_reviews = ds.filter(lambda x: x['label'] == 1)
+# neg_reviews = ds.filter(lambda x: x['label'] == 0)
+#
+# # 从每个类别中选择 1250 个样本
+# pos_reviews = pos_reviews.select(range(5120))
 # neg_reviews = neg_reviews.select(range(1280))
 
 # 合并这两个子集
 #ds = concatenate_datasets([pos_reviews, neg_reviews])
-ds = pos_reviews
+#ds = pos_reviews
 
-ds = ds.rename_columns({'text': 'review'})
+ds = ds.rename_columns({'text': 'review','label': 'sentiment'})
 print('len',len(ds))
 
 device0 = torch.device("cuda:0")
