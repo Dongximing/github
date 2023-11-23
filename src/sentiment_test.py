@@ -70,7 +70,7 @@ def tokenize(sample):
 
 ds = ds.apply(tokenize, axis=1)
 
-bs = 25
+bs = 2500
 result_data = dict()
 
 query_tensors = ds['tokens'].tolist()
