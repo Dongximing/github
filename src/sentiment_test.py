@@ -28,7 +28,7 @@ from trl.core import build_bert_batch_from_txt, listify_batch
 # from distinct import distinct
 
 config = {
-    "model_name": "./model-gpt2-medium-5120",
+    "model_name": "./model-gpt2-medium-full",
     "cls_model_name": "lvwerra/distilbert-imdb",
     "lr": 1.41e-5,
     "init_kl_coef":0.2,
@@ -44,10 +44,9 @@ config = {
 
 # load imdb with datasets
 
-ds = pd.read_csv('/home/shaowei/sensitive-blocking/sentiment_methods/half_sentiment_context_imdb_paper_test_015.csv')
+ds = pd.read_csv('/home/shaowei/sensitive-blocking/sentiment_methods/dataset/sampled_testing_dataset.csv')
 # ds = ds.rename_columns({'prompt': 'review'})
 ds = ds.rename(columns={'prompt': 'review'})
-
 # device0 = torch.device("cuda:0")
 device1 = torch.device("cuda:0")
 
@@ -83,6 +82,7 @@ with torch.no_grad():
     gpt2_model.eval()
 
     for i in tqdm(range(bs)):
+
         response = sentiment_generation(gpt2_model, torch.tensor(query_tensors[i]).unsqueeze(dim=0).to(device1))
         response_tensors.append(response[0])
 
@@ -94,4 +94,4 @@ ds['model_real_output'] = [gpt2_tokenizer.decode(response_tensors[i][input_size:
 #texts = [q + r for q,r in zip(ds['review'], ds['model_real_output'])]
 
 
-save = ds.to_csv('paper_5120.csv', index=False)
+save = ds.to_csv('paper_full.csv', index=False)
