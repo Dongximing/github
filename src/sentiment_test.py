@@ -46,7 +46,7 @@ config = {
 
 #ds = pd.read_csv('/home/shaowei/sensitive-blocking/sentiment_methods/dataset/sampled_testing_dataset.csv')
 ds = load_dataset('imdb', split='test')
-ds = ds.select(range(2))
+ds = ds.select(range(2500))
 ds  = pd.DataFrame(ds)
 #ds = ds.rename_columns({'prompt': 'review'})
 ds = ds.rename(columns={'text': 'review'})
