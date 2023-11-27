@@ -181,13 +181,13 @@ def sentiment_generation(model, queries, txt_len=25, top_vocab=1, top_p=1.0, no_
         probs = F.softmax(next_token_logits, dim=-1)
         # V_value = outputs[2].unsqueeze(-1)[:, -1, :]
         # Sample
-        _, candidate_tokens = torch.topk(probs, top_vocab, dim=-1)
-        for _, Q_token in enumerate(candidate_tokens[0]):
-            # print('Q_token',Q_token)
-            # print('probs[0][Q_token.item()] ',probs[0][Q_token.item()] )
-            Q_value = model(torch.cat([input_ids, Q_token.view([1,1])], dim=-1))[2].unsqueeze(-1)[:, -1, :]
-            # print(Q_value.size())
-            probs[0][Q_token.item()] = probs[0][Q_token.item()] * (torch.nn.Sigmoid()(Q_value) / torch.nn.Sigmoid()(V_value))
+        # _, candidate_tokens = torch.topk(probs, top_vocab, dim=-1)
+        # for _, Q_token in enumerate(candidate_tokens[0]):
+        #     # print('Q_token',Q_token)
+        #     # print('probs[0][Q_token.item()] ',probs[0][Q_token.item()] )
+        #     Q_value = model(torch.cat([input_ids, Q_token.view([1,1])], dim=-1))[2].unsqueeze(-1)[:, -1, :]
+        #     # print(Q_value.size())
+        #     probs[0][Q_token.item()] = probs[0][Q_token.item()] * (torch.nn.Sigmoid()(Q_value) / torch.nn.Sigmoid()(V_value))
             # print('probs[0][Q_token.item()] ', probs[0][Q_token.item()])
         # if tuple(input_ids[0][-no_repeat_ngram+1:].tolist()) in ngram_list.keys():
         #     banned_token_list = ngram_list[tuple(input_ids[0][-no_repeat_ngram+1:].tolist())]
