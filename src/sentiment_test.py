@@ -97,4 +97,4 @@ ds['model_real_output'] = [gpt2_tokenizer.decode(response_tensors[i][input_size:
 #texts = [q + r for q,r in zip(ds['review'], ds['model_real_output'])]
 
 
-save = ds.to_csv('paper_full.csv', index=False)
+save = ds.to_csv('paper_full_1127.csv', index=False)
