@@ -149,7 +149,7 @@ class GPT2HeadWithValueModel(GPT2LMHeadModel):
 
         if not return_dict:
             outputs = (lm_logits,) + transformer_outputs[1:] + (value,)
-            print('11111111')
+    
             return outputs
 
         return CausalLMOutputWithCrossAttentions(
