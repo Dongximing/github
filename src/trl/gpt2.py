@@ -3,7 +3,6 @@
 __all__ = ['CausalLMOutputWithCrossAttentions', 'ValueHead', 'GPT2HeadWithValueModel', 'respond_to_batch']
 
 # Cell
-
 from transformers import GPT2LMHeadModel, GPT2Tokenizer, GPT2Model, GPT2PreTrainedModel
 from transformers import top_k_top_p_filtering
 from transformers.modeling_outputs import ModelOutput
@@ -75,6 +74,7 @@ class ValueHead(nn.Module):
 class GPT2HeadWithValueModel(GPT2LMHeadModel):
     """The GPT2HeadWithValueModel class implements a GPT2 language model with a secondary, scalar head."""
     def __init__(self, config):
+        print('config',config)
         super().__init__(config)
         config.num_labels = 1
         self.transformer = GPT2Model(config)
@@ -149,6 +149,7 @@ class GPT2HeadWithValueModel(GPT2LMHeadModel):
 
         if not return_dict:
             outputs = (lm_logits,) + transformer_outputs[1:] + (value,)
+            print('11111111')
             return outputs
 
         return CausalLMOutputWithCrossAttentions(
@@ -163,7 +164,7 @@ class GPT2HeadWithValueModel(GPT2LMHeadModel):
         return outputs
 
 ## CriticControl
-def sentiment_generation(model, queries, txt_len=25, top_vocab=10, top_p=0.9, no_repeat_ngram=4):
+def sentiment_generation(model, queries, txt_len=25, top_vocab=1, top_p=1.0, no_repeat_ngram=-1):
     """Sample text from language model."""
     input_ids = queries
     ngram_list = dict()
@@ -171,27 +172,35 @@ def sentiment_generation(model, queries, txt_len=25, top_vocab=10, top_p=0.9, no
     for i in range(txt_len):
         # Get Logits
         outputs = model(input_ids)
+        # print("======================")
+        # print(outputs[0].size())
+        #
+        # print(outputs[2].size())
+
         next_token_logits = outputs[0][:, -1, :]
         probs = F.softmax(next_token_logits, dim=-1)
-        V_value = outputs[2].unsqueeze(-1)[:, -1, :]
+        # V_value = outputs[2].unsqueeze(-1)[:, -1, :]
         # Sample
         _, candidate_tokens = torch.topk(probs, top_vocab, dim=-1)
         for _, Q_token in enumerate(candidate_tokens[0]):
+            # print('Q_token',Q_token)
+            # print('probs[0][Q_token.item()] ',probs[0][Q_token.item()] )
             Q_value = model(torch.cat([input_ids, Q_token.view([1,1])], dim=-1))[2].unsqueeze(-1)[:, -1, :]
+            # print(Q_value.size())
             probs[0][Q_token.item()] = probs[0][Q_token.item()] * (torch.nn.Sigmoid()(Q_value) / torch.nn.Sigmoid()(V_value))
-        if tuple(input_ids[0][-no_repeat_ngram+1:].tolist()) in ngram_list.keys():
-            banned_token_list = ngram_list[tuple(input_ids[0][-no_repeat_ngram+1:].tolist())]
-            for _, banned_token in enumerate(banned_token_list):
-                probs[0][banned_token] = 0
-        probs = F.softmax(probs, dim=-1)
-        probs = top_k_top_p_filtering(probs, top_p=top_p)
-        probs = F.softmax(probs, dim=-1)
+            # print('probs[0][Q_token.item()] ', probs[0][Q_token.item()])
+        # if tuple(input_ids[0][-no_repeat_ngram+1:].tolist()) in ngram_list.keys():
+        #     banned_token_list = ngram_list[tuple(input_ids[0][-no_repeat_ngram+1:].tolist())]
+        #     for _, banned_token in enumerate(banned_token_list):
+        #         probs[0][banned_token] = -float("inf")
+
         next_token = torch.multinomial(probs, num_samples=1).squeeze(1)
         input_ids = torch.cat([input_ids, next_token.unsqueeze(-1)], dim=-1)
-        if tuple(input_ids[0][-no_repeat_ngram:-1].tolist()) in ngram_list.keys():
-            ngram_list[tuple(input_ids[0][-no_repeat_ngram:-1].tolist())].append(next_token.item())
-        else:
-            ngram_list[tuple(input_ids[0][-no_repeat_ngram:-1].tolist())] = [next_token.item()]
+        # if tuple(input_ids[0][-no_repeat_ngram:-1].tolist()) in ngram_list.keys():
+        #     ngram_list[tuple(input_ids[0][-no_repeat_ngram:-1].tolist())].append(next_token.item())
+        # else:
+        #     ngram_list[tuple(input_ids[0][-no_repeat_ngram:-1].tolist())] = [next_token.item()]
+        # print("ngram_list",ngram_list)
     return input_ids
 
 ## CriticControl

@@ -20,7 +20,7 @@ config = {
     "cls_model_name": "lvwerra/distilbert-imdb",
     "steps": 40000,
     "batch_size": 128,
-    "forward_batch_size": 64,
+    "forward_batch_size": 128,
     "ppo_epochs": 4,
     "lr": 1.41e-5,
     "init_kl_coef":0.2,
@@ -33,7 +33,7 @@ config = {
     "vf_coef":.1, 
 }
 
-experiment_name = 'model-gpt2-medium-full'
+experiment_name = 'model-gpt2-medium-1127'
 
 # load imdb with datasets
 ds = load_dataset('imdb', split='train')
@@ -76,8 +76,11 @@ sentiment_pipe = pipeline("sentiment-analysis",config['cls_model_name'],return_a
 for module in [gpt2_model.transformer, gpt2_model.lm_head]:
     for param in module.parameters():
         param.requires_grad = False
-
+trainable_parameters = {name: param.requires_grad for name, param in gpt2_model.named_parameters() if param.requires_grad}
+print(trainable_parameters)
 input_size = 32
+initial_params = {name: param.clone() for name, param in gpt2_model.named_parameters() if param.requires_grad}
+
 
 def tokenize(sample):
     sample["tokens"] = gpt2_tokenizer.encode(sample["review"])[:input_size]
@@ -93,7 +96,7 @@ gen_kwargs = {
     "do_sample": True,
     "pad_token_id": gpt2_tokenizer.eos_token_id,
     "max_length": 57,
-    "temperature": 2.0
+    "temperature": 1
 }
 
 def collater(data):
@@ -104,6 +107,7 @@ ppo_trainer = PPOTrainer(gpt2_model, gpt2_model_ref, gpt2_tokenizer, **config)
 total_ppo_epochs = int(np.ceil(config["steps"]/config['batch_size']))
 
 for epoch, batch in tqdm(zip(range(total_ppo_epochs), iter(dataloader))):
+    print()
     logs, timing = dict(), dict()
     t0 = time.time()
     query_tensors = [torch.tensor(t).long().to(device0) for t in batch["tokens"]]
@@ -120,7 +124,7 @@ for epoch, batch in tqdm(zip(range(total_ppo_epochs), iter(dataloader))):
 
     #### Compute sentiment score
     t = time.time()
-    texts = [q + r for q,r in zip(batch['query'], batch['response'])]
+    texts = batch['response']
 
     print(texts[0])
     print(' ')
@@ -148,7 +152,10 @@ for epoch, batch in tqdm(zip(range(total_ppo_epochs), iter(dataloader))):
     logs['env/reward_std'] = torch.std(rewards).cpu().numpy()
     logs['env/reward_dist'] = rewards.cpu().numpy()
 
-
+for name, param in gpt2_model.named_parameters():
+    if param.requires_grad:
+        change = torch.sum(initial_params[name] != param).item() > 0
+        print(f"{name} changed: {change}")
 os.makedirs(experiment_name)
 gpt2_model.save_pretrained(experiment_name)
 gpt2_tokenizer.save_pretrained(experiment_name)

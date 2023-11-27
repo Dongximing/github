@@ -39,16 +39,19 @@ config = {
     "cliprange": .2,
     "cliprange_value":.2,
     "vf_coef":.1,
-    "forward_batch_size":25
+    "forward_batch_size":2
 }
 
 # load imdb with datasets
 
-ds = pd.read_csv('/home/shaowei/sensitive-blocking/sentiment_methods/dataset/sampled_testing_dataset.csv')
-# ds = ds.rename_columns({'prompt': 'review'})
-ds = ds.rename(columns={'prompt': 'review'})
+#ds = pd.read_csv('/home/shaowei/sensitive-blocking/sentiment_methods/dataset/sampled_testing_dataset.csv')
+ds = load_dataset('imdb', split='test')
+ds = ds.select(range(2))
+ds  = pd.DataFrame(ds)
+#ds = ds.rename_columns({'prompt': 'review'})
+ds = ds.rename(columns={'text': 'review'})
 # device0 = torch.device("cuda:0")
-device1 = torch.device("cuda:0")
+device1 = 'cpu'
 
 sent_kwargs = {
     "return_all_scores": True,
@@ -70,7 +73,7 @@ def tokenize(sample):
 
 ds = ds.apply(tokenize, axis=1)
 
-bs = 2500
+bs = 2
 result_data = dict()
 
 query_tensors = ds['tokens'].tolist()
