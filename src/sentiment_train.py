@@ -96,7 +96,7 @@ gen_kwargs = {
     "do_sample": True,
     "pad_token_id": gpt2_tokenizer.eos_token_id,
     "max_length": 57,
-    "temperature": 1
+    "temperature": 2
 }
 
 def collater(data):
