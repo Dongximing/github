@@ -105,12 +105,14 @@ for epoch, batch in tqdm(zip(range(total_ppo_epochs), iter(dataloader))):
     #### Get response from gpt2
     t = time.time()
     response_tensors = []
+    full_tensors = []
     for i in range(config['batch_size']):
         print("prompt:",gpt2_tokenizer.decode(query_tensors[i]))
         gen_kwargs['max_length'] = len(query_tensors[i])+20
         response = gpt2_model.generate(query_tensors[i].unsqueeze(dim=0),**gen_kwargs)
         response_tensors.append(response.squeeze()[len(query_tensors[i]):])
-    batch['full'] = [gpt2_tokenizer.decode(r.squeeze()) for r in response_tensors]
+        full_tensors.append(response.squeeze())
+    batch['full'] = [gpt2_tokenizer.decode(r.squeeze()) for r in full_tensors]
 
 
     timing['time/get_response'] = time.time() - t
@@ -121,7 +123,7 @@ for epoch, batch in tqdm(zip(range(total_ppo_epochs), iter(dataloader))):
 
     print(texts[0])
     print(' ')
-    print(texts[0])
+
 
     # print(texts)
 
