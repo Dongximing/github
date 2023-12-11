@@ -55,7 +55,7 @@ gpt2_tokenizer.pad_token = gpt2_tokenizer.eos_token
 
 gpt2_model.to(device0)
 gpt2_model_ref.to(device0)
-sentiment_pipe = pipeline("text-classification", config['cls_model_name'], return_all_scores=True, topk=None, device=0)  # reward
+sentiment_pipe = pipeline("text-classification", config['cls_model_name'], return_all_scores=True,  device=0)  # reward
 
 # Freezing LM
 for module in [gpt2_model.transformer, gpt2_model.lm_head]:
