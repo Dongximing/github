@@ -6,7 +6,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 from tqdm import tqdm
 import numpy as np
 import pandas as pd
-
+from datasets import Dataset
 tqdm.pandas()
 
 from datasets import load_dataset, concatenate_datasets
@@ -75,7 +75,7 @@ def tokenize(sample):
 
 
 ds = ds.apply(tokenize, axis=1)
-
+ds = Dataset.from_pandas(ds)
 gen_kwargs = {
     "top_k": 0.0,
     "top_p": 1.0,
