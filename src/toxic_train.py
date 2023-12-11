@@ -106,18 +106,21 @@ for epoch, batch in tqdm(zip(range(total_ppo_epochs), iter(dataloader))):
     t = time.time()
     response_tensors = []
     for i in range(config['batch_size']):
-        gen_kwargs['max_length'] = len(query_tensors[i])+15
+        gen_kwargs['max_length'] = len(query_tensors[i])+20
         response = gpt2_model.generate(query_tensors[i].unsqueeze(dim=0),**gen_kwargs)
-        response_tensors.append(response.squeeze())
-    batch['response'] = [gpt2_tokenizer.decode(r.squeeze()) for r in response_tensors]
+        response_tensors.append(response.squeeze()[len(query_tensors[i]):])
+    batch['full'] = [gpt2_tokenizer.decode(r.squeeze()) for r in response_tensors]
+
+
     timing['time/get_response'] = time.time() - t
 
     #### Compute sentiment score
     t = time.time()
-    texts = batch['response']
+    texts = batch['full']
 
     print(texts[0])
     print(' ')
+    print(texts[0])
 
     # print(texts)
 
