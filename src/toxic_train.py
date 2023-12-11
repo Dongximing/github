@@ -67,7 +67,7 @@ print(trainable_parameters)
 
 initial_params = {name: param.clone() for name, param in gpt2_model.named_parameters() if param.requires_grad}
 
-ds = pd.read_csv("datasets/train_dataset.csv")
+ds = pd.read_csv("dataset/train_dataset.csv")
 
 def tokenize(sample):
     sample["query"] = gpt2_tokenizer.decode(sample["prompt"])
