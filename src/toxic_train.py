@@ -21,8 +21,8 @@ config = {
     "model_name": "gpt2-large",
     "cls_model_name": "unitary/toxic-bert",
     "steps": 40000,
-    "batch_size": 1,
-    "forward_batch_size": 1,
+    "batch_size": 64,
+    "forward_batch_size": 64,
     "ppo_epochs": 4,
     "lr": 1.41e-5,
     "init_kl_coef": 0.2,
@@ -100,14 +100,14 @@ for epoch, batch in tqdm(zip(range(total_ppo_epochs), iter(dataloader))):
     logs, timing = dict(), dict()
     t0 = time.time()
     query_tensors = [torch.tensor(t).long().to(device0) for t in batch["tokens"]]
-    print("query_tensors", len(query_tensors))
+    #print("query_tensors", len(query_tensors))
 
     #### Get response from gpt2
     t = time.time()
     response_tensors = []
     full_tensors = []
     for i in range(config['batch_size']):
-        print("prompt:",gpt2_tokenizer.decode(query_tensors[i]))
+        # print("prompt:",gpt2_tokenizer.decode(query_tensors[i]))
         gen_kwargs['max_length'] = len(query_tensors[i])+20
         response = gpt2_model.generate(query_tensors[i].unsqueeze(dim=0),**gen_kwargs)
         response_tensors.append(response.squeeze()[len(query_tensors[i]):])
@@ -121,8 +121,8 @@ for epoch, batch in tqdm(zip(range(total_ppo_epochs), iter(dataloader))):
     t = time.time()
     texts = batch['full']
 
-    print(texts[0])
-    print(' ')
+    # print(texts[0])
+    # print(' ')
 
 
     # print(texts)

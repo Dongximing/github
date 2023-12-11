@@ -81,8 +81,8 @@ class PPOTrainer:
         "cliprange": .2,
         "cliprange_value":.2,
         "vf_coef":.1,
-        "batch_size": 1,
-        "forward_batch_size": 1,
+        "batch_size": 64,
+        "forward_batch_size": 64,
         "ppo_epochs": 4,
     }
 
