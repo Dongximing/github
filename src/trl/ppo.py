@@ -245,7 +245,7 @@ class PPOTrainer:
         print("gen_len", gen_len)
         for t in reversed(range(gen_len)):
             nextvalues = values[:, t + 1] if t < gen_len - 1 else 0.0
-            print("nextvalues")
+            print("nextvalues",len(nextvalues))
             delta = rewards[:, t] + self.ppo_params['gamma'] * nextvalues - values[:, t]
             lastgaelam = delta + self.ppo_params['gamma'] * self.ppo_params['lam'] * lastgaelam
             advantages_reversed.append(lastgaelam)
