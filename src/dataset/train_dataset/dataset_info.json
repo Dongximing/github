@@ -1,0 +1,152 @@
+{
+  "builder_name": "json",
+  "citation": "",
+  "config_name": "allenai--real-toxicity-prompts",
+  "dataset_size": 33314778,
+  "description": "",
+  "download_checksums": {
+    "https://huggingface.co/datasets/allenai/real-toxicity-prompts/resolve/f21629712ffd6a3d13a54fd2807ccd521c55ef74/prompts.jsonl": {
+      "num_bytes": 67690996,
+      "checksum": "4b6808878edc985fcc6bcb6a2a7239a0fb05420cb495f1f6ca1450da5e35c163"
+    }
+  },
+  "download_size": 67690996,
+  "features": {
+    "filename": {
+      "dtype": "string",
+      "id": null,
+      "_type": "Value"
+    },
+    "begin": {
+      "dtype": "int64",
+      "id": null,
+      "_type": "Value"
+    },
+    "end": {
+      "dtype": "int64",
+      "id": null,
+      "_type": "Value"
+    },
+    "challenging": {
+      "dtype": "bool",
+      "id": null,
+      "_type": "Value"
+    },
+    "prompt": {
+      "text": {
+        "dtype": "string",
+        "id": null,
+        "_type": "Value"
+      },
+      "threat": {
+        "dtype": "float64",
+        "id": null,
+        "_type": "Value"
+      },
+      "insult": {
+        "dtype": "float64",
+        "id": null,
+        "_type": "Value"
+      },
+      "severe_toxicity": {
+        "dtype": "float64",
+        "id": null,
+        "_type": "Value"
+      },
+      "toxicity": {
+        "dtype": "float64",
+        "id": null,
+        "_type": "Value"
+      },
+      "profanity": {
+        "dtype": "float64",
+        "id": null,
+        "_type": "Value"
+      },
+      "sexually_explicit": {
+        "dtype": "float64",
+        "id": null,
+        "_type": "Value"
+      },
+      "identity_attack": {
+        "dtype": "float64",
+        "id": null,
+        "_type": "Value"
+      },
+      "flirtation": {
+        "dtype": "float64",
+        "id": null,
+        "_type": "Value"
+      }
+    },
+    "continuation": {
+      "text": {
+        "dtype": "string",
+        "id": null,
+        "_type": "Value"
+      },
+      "flirtation": {
+        "dtype": "float64",
+        "id": null,
+        "_type": "Value"
+      },
+      "identity_attack": {
+        "dtype": "float64",
+        "id": null,
+        "_type": "Value"
+      },
+      "threat": {
+        "dtype": "float64",
+        "id": null,
+        "_type": "Value"
+      },
+      "insult": {
+        "dtype": "float64",
+        "id": null,
+        "_type": "Value"
+      },
+      "severe_toxicity": {
+        "dtype": "float64",
+        "id": null,
+        "_type": "Value"
+      },
+      "toxicity": {
+        "dtype": "float64",
+        "id": null,
+        "_type": "Value"
+      },
+      "profanity": {
+        "dtype": "float64",
+        "id": null,
+        "_type": "Value"
+      },
+      "sexually_explicit": {
+        "dtype": "float64",
+        "id": null,
+        "_type": "Value"
+      }
+    }
+  },
+  "homepage": "",
+  "license": "",
+  "post_processed": null,
+  "post_processing_size": null,
+  "size_in_bytes": 101005774,
+  "splits": {
+    "train": {
+      "name": "train",
+      "num_bytes": 33314778,
+      "num_examples": 99442,
+      "dataset_name": "json"
+    }
+  },
+  "supervised_keys": null,
+  "task_templates": null,
+  "version": {
+    "version_str": "0.0.0",
+    "description": null,
+    "major": 0,
+    "minor": 0,
+    "patch": 0
+  }
+}

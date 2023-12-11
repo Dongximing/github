@@ -67,18 +67,16 @@ print(trainable_parameters)
 
 initial_params = {name: param.clone() for name, param in gpt2_model.named_parameters() if param.requires_grad}
 
-ds = pd.read_csv("dataset/train_dataset.csv")
+ds = load_dataset("train_dataset")
 
 def tokenize(sample):
     print(type(sample["prompt"]))
-    prompt_dict = json.loads(sample["prompt"].replace("'", "\""))
-    print("prompt :", prompt_dict["text"])
-    sample["tokens"] = gpt2_tokenizer.encode(prompt_dict["text"])
+    print("prompt :", sample["prompt"]["text"])
+    sample["tokens"] = gpt2_tokenizer.encode(sample["prompt"]["text"])
     return sample
 
 
-ds = ds.apply(tokenize, axis=1)
-ds = Dataset.from_pandas(ds)
+ds = ds.map(tokenize, batch_size=False)
 gen_kwargs = {
     "top_k": 0.0,
     "top_p": 1.0,

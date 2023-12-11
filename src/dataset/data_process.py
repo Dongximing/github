@@ -9,8 +9,8 @@ train_test_split = dataset['train'].train_test_split(train_size=90000, test_size
 train_dataset = train_test_split['train']
 test_dataset = train_test_split['test']
 
-train_dataset.to_csv('train_dataset.csv')
-test_dataset.to_csv('test_dataset.csv')
+train_dataset.save_to_disk('train_dataset')
+test_dataset.save_to_disk('test_dataset')
 
 print("Train dataset and test dataset are saved as CSV files.")
 
