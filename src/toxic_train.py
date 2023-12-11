@@ -74,7 +74,7 @@ def tokenize(sample):
     return sample
 
 
-ds = ds.map(tokenize, batched=False)
+ds = ds.apply(tokenize, axis=1)
 
 gen_kwargs = {
     "top_k": 0.0,
