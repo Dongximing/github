@@ -107,7 +107,7 @@ ppo_trainer = PPOTrainer(gpt2_model, gpt2_model_ref, gpt2_tokenizer, **config)
 total_ppo_epochs = int(np.ceil(config["steps"]/config['batch_size']))
 
 for epoch, batch in tqdm(zip(range(total_ppo_epochs), iter(dataloader))):
-    print()
+
     logs, timing = dict(), dict()
     t0 = time.time()
     query_tensors = [torch.tensor(t).long().to(device0) for t in batch["tokens"]]

@@ -28,8 +28,8 @@ from trl.core import build_bert_batch_from_txt, listify_batch
 # from distinct import distinct
 
 config = {
-    "model_name": "./model-gpt2-medium-1127",
-    "cls_model_name": "lvwerra/distilbert-imdb",
+    "model_name": "./model-gpt2-medium-toxic-1205",
+    "cls_model_name": "unitary/toxic-bert",
     "lr": 1.41e-5,
     "init_kl_coef":0.2,
     "target": 6,
