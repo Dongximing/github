@@ -67,7 +67,7 @@ print(trainable_parameters)
 
 initial_params = {name: param.clone() for name, param in gpt2_model.named_parameters() if param.requires_grad}
 
-ds = load_dataset("train_dataset")
+ds = load_dataset("/train_dataset")
 
 def tokenize(sample):
     print(type(sample["prompt"]))
