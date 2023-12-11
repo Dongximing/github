@@ -70,7 +70,8 @@ initial_params = {name: param.clone() for name, param in gpt2_model.named_parame
 ds = pd.read_csv("dataset/train_dataset.csv")
 
 def tokenize(sample):
-    sample["tokens"] = gpt2_tokenizer.encode(sample["prompt"]['text'])
+    print(type(sample["prompt"]))
+    sample["tokens"] = gpt2_tokenizer.encode(sample["prompt"]["text"])
     return sample
 
 
