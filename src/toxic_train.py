@@ -1,7 +1,7 @@
 import torch
 import time
 import os
-
+import json
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 from tqdm import tqdm
 import numpy as np
@@ -71,7 +71,9 @@ ds = pd.read_csv("dataset/train_dataset.csv")
 
 def tokenize(sample):
     print(type(sample["prompt"]))
-    sample["tokens"] = gpt2_tokenizer.encode(sample["prompt"]["text"])
+    prompt_dict = json.loads(sample["prompt"].replace("'", "\""))
+    print("prompt :", prompt_dict["text"])
+    sample["tokens"] = gpt2_tokenizer.encode(prompt_dict["text"])
     return sample
 
 
