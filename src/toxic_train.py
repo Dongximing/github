@@ -70,8 +70,8 @@ initial_params = {name: param.clone() for name, param in gpt2_model.named_parame
 ds = Dataset.from_file("dataset/train_dataset/dataset.arrow")
 
 def tokenize(sample):
-    print(type(sample["prompt"]))
-    print("prompt :", sample["prompt"]["text"])
+    # print(type(sample["prompt"]))
+    # print("prompt :", sample["prompt"]["text"])
     sample["tokens"] = gpt2_tokenizer.encode(sample["prompt"]["text"])
     return sample
 
@@ -82,7 +82,7 @@ gen_kwargs = {
     "top_p": 1.0,
     "do_sample": True,
     "pad_token_id": gpt2_tokenizer.eos_token_id,
-    "max_new_tokens": 20,
+    "max_length": 20,
     "temperature": 2.0
 }
 
@@ -106,7 +106,8 @@ for epoch, batch in tqdm(zip(range(total_ppo_epochs), iter(dataloader))):
     t = time.time()
     response_tensors = []
     for i in range(config['batch_size']):
-        response = gpt2_model.generate(query_tensors[i].unsqueeze(dim=0), **gen_kwargs)
+        gen_kwargs['max_length'] = len(query_tensors[i])+20
+        response = gpt2_model.generate(query_tensors[i].unsqueeze(dim=0),**gen_kwargs)
         response_tensors.append(response.squeeze())
     batch['response'] = [gpt2_tokenizer.decode(r.squeeze()) for r in response_tensors]
     timing['time/get_response'] = time.time() - t
