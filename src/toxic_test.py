@@ -49,6 +49,7 @@ with torch.no_grad():
     for i in tqdm(range(len(ds))):
         toxic_prompt = ds[i]['prompt']['text']
         query_tensors = gpt2_tokenizer.encode(toxic_prompt)
+        print(query_tensors)
         input_size = len(query_tensors[0])
         response = sentiment_generation(gpt2_model, query_tensors.to(device1))
 
