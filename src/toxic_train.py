@@ -108,8 +108,10 @@ for epoch, batch in tqdm(zip(range(total_ppo_epochs), iter(dataloader))):
     full_tensors = []
     for i in range(config['batch_size']):
         print("prompt:",gpt2_tokenizer.decode(query_tensors[i]))
-
+        print("----")
         response = gpt2_model.generate(query_tensors[i].unsqueeze(dim=0),**gen_kwargs)
+        print("response :", gpt2_tokenizer.decode(response.squeeze()))
+        print('===')
         response_tensors.append(response.squeeze()[len(query_tensors[i]):])
         full_tensors.append(response.squeeze())
     batch['full'] = [gpt2_tokenizer.decode(r.squeeze()) for r in full_tensors]
