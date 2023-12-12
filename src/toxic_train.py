@@ -83,7 +83,7 @@ gen_kwargs = {
     "do_sample": True,
     "pad_token_id": gpt2_tokenizer.eos_token_id,
     "max_length": 40,
-    "temperature": 2.0
+    "temperature": 0.01
 }
 
 
