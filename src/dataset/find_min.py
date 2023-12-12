@@ -1,7 +1,7 @@
 from datasets import Dataset
 from transformers import AutoTokenizer, pipeline
 gpt2_tokenizer = AutoTokenizer.from_pretrained('gpt2-large')
-ds = Dataset.from_file("dataset/train_dataset/dataset.arrow")
+ds = Dataset.from_file("train_dataset/dataset.arrow")
 
 def tokenize(sample):
     # print(type(sample["prompt"]))
