@@ -20,7 +20,7 @@ from trl.core import build_bert_batch_from_txt, listify_batch
 config = {
     "model_name": "gpt2-large",
     "cls_model_name": "unitary/toxic-bert",
-    "steps": 40000,
+    "steps": 20000,
     "batch_size": 64,
     "forward_batch_size": 64,
     "ppo_epochs": 4,
