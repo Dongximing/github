@@ -50,8 +50,8 @@ with torch.no_grad():
         toxic_prompt = ds[i]['prompt']['text']
         query_tensors = gpt2_tokenizer.encode(toxic_prompt)
         print(query_tensors)
-        input_size = len(query_tensors[0])
-        response = sentiment_generation(gpt2_model, query_tensors.to(device1))
+        input_size = len(query_tensors)
+        response = sentiment_generation(gpt2_model, query_tensors.unsequeeze(0).to(device1))
 
 
         results.append(
